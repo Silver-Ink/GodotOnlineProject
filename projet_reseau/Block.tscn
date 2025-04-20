@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://3c713cxf13x3"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_hfsdp"]
+specular_color = Color(0, 0.553733, 0.906407, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hfsdp"]
+size = Vector2(126, 124)
+
+[node name="Block" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(125, 125)
+texture = SubResource("CanvasTexture_hfsdp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_hfsdp")

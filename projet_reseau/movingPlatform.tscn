@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://du0a5ipsfenwv"]
+
+[ext_resource type="Script" uid="uid://tww2488shig5" path="res://moving_platform.gd" id="1_0or2f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0or2f"]
+size = Vector2(251, 61)
+
+[sub_resource type="Gradient" id="Gradient_mwlgw"]
+offsets = PackedFloat32Array(0, 0.607143, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.358471, 0.792408, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0or2f"]
+gradient = SubResource("Gradient_mwlgw")
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_mwlgw"]
+a = Vector2(-112, -40)
+b = Vector2(125, -43)
+
+[node name="MovingPlatform" type="StaticBody2D"]
+script = ExtResource("1_0or2f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0or2f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 64)
+texture = SubResource("GradientTexture1D_0or2f")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SegmentShape2D_mwlgw")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
