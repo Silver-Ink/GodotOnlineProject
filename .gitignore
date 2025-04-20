@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+
+/ClientExport
+/server/replay.json
+/server/__pycache__

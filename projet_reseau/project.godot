@@ -14,10 +14,16 @@ config/name="Projet_Reseau"
 run/main_scene="uid://cvxjxii8noho8"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+run/main_scene.server_validator="uid://c3rykyhcpvuaj"
 
 [autoload]
 
 AutoloadClient="*res://Client/autoload_client.gd"
+
+[global]
+
+IsServerValidator=false
+IsServerValidator.server_validator=true
 
 [input]
 
