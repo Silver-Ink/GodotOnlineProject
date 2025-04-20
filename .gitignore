@@ -4,5 +4,6 @@
 
 
 /ClientExport
+/ServerExport
 /server/replay.json
 /server/__pycache__

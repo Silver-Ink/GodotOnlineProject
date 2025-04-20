@@ -7,9 +7,6 @@ func _ready():
 	if args.size() > 0:
 		replay_path = args[0]
 		
-		
-	print("Starting Godot Server")
-	get_tree().quit(0)
 	var file = FileAccess.open(replay_path, FileAccess.READ)
 	if (file):
 		print("Found ", replay_path)
