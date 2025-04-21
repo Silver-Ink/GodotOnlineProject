@@ -11,6 +11,10 @@ func send_test_score():
 		"inputs": input_log,
 		"version": 0
 	}
+	
+	#var steamID = Steam.getSteamID()
+	#var steamTicket = Steam.getAuthSessionTicket()
+	#print(steamID)
 
 	var json : String = JSON.stringify(payload, "\t")
 	var result = http.request("http://127.0.0.1:8000/submit_score", ["Content-Type: application/json"], HTTPClient.METHOD_POST, json)

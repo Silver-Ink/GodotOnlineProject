@@ -19,6 +19,7 @@ run/main_scene.server_validator="uid://c3rykyhcpvuaj"
 [autoload]
 
 AutoloadClient="*res://Client/autoload_client.gd"
+SteamManager="*res://Steam/steam_manager.gd"
 
 [global]
 
