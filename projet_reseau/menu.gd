@@ -15,3 +15,4 @@ func on_quit_pressed():
 	
 func on_test_pressed():
 	AutoloadClient.client_connect_inst.send_test_score()
+	

@@ -3,21 +3,20 @@ extends Node
 func _ready():
 	
 	var args = OS.get_cmdline_args()
-	var replay_path = "../server/replay.json"
+	var inputs := ""
 	if args.size() > 0:
-		replay_path = args[0]
+		inputs = args[0]
 		
-	var file = FileAccess.open(replay_path, FileAccess.READ)
-	if (file):
-		print("Found ", replay_path)
-	var replay_data = JSON.parse_string(file.get_as_text())
-	file.close()
+	var expected_time := 0.
+	if (args.size() > 1):
+		expected_time = args[0]
 	
-	print("Json Retrieved")
-	var inputs = replay_data["inputs"]
-	var expected_time = replay_data["time"]
+	print("receive input")
+	print(inputs)
+	print("receive time")
+	print(expected_time)
 
-	#var simulated_time = simulate_game(inputs)
+	#var simulated_time = simulate_game(inputss)
 
 	if expected_time < 10:
 		get_tree().quit(0)
