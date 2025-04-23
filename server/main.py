@@ -1,9 +1,10 @@
 import subprocess
 import time
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Query
 from fastapi.responses import JSONResponse
 import requests
 import json
+import db_manager as db
 
 class ccolors:
     HEADER = '\033[95m'
@@ -19,27 +20,26 @@ class ccolors:
 
 app = FastAPI()
 
-STEAM_API_KEY = "4E798DA95554500486D2057A8B7482BB"
+STEAM_API_KEY = "460FD58ECA9B2A7B0F4542B5150A01AB"
 APP_ID = "480" 
-  
-@app.post("/submit_score")
-async def submit_score(request: Request):
-    body_bytes = await request.body()
-    data = json.loads(body_bytes)
+level = 0
+level_count = 1
+def daily_level(): return level % level_count
 
+db.init_db()
+db.print_whole_db()
+
+def check_steam_ticket(steam_id, auth_ticket) -> JSONResponse | None:
     time.sleep(1)
-    steam_id = data.get("steam_id")
-    ticket_raw = data.get("auth_ticket")["buffer"]
-    ticket_size = data.get("ticket_size", 0)
+    ticket_raw = auth_ticket["buffer"]
 
     ticket_list = json.loads(ticket_raw)
+
+    ticket_size = auth_ticket["size"]
 
     ticket_bytes = bytes(ticket_list[:ticket_size])
 
     ticket_hex = ticket_bytes.hex()
-
-
-    print(f"🎮 Requête reçue\n📦 Ticket HEX: {ticket_hex[:60]}... {len(ticket_hex)}")
 
     params = {
         "key": STEAM_API_KEY,
@@ -58,17 +58,49 @@ async def submit_score(request: Request):
         json_result = response.json()
         result = json_result["response"]["params"]["result"]
         if (result != "OK"):
-            return JSONResponse(status_code=401, content={"status": "invalid ticket steam side"})
-            
+            return JSONResponse(status_code=401, content={"status": "invalid ticket steam side"})       
     except:
         return JSONResponse(status_code=401, content={"status": "invalid ticket steam side"})
+    return None
+
+@app.post("/connect")
+async def connect(request: Request):
+    body_bytes = await request.body()
+    data = json.loads(body_bytes)
+
+    steam_id = data.get("steam_id")
+    ticket = data.get("auth_ticket")
+
+    error = check_steam_ticket(steam_id, ticket)
+    if (error):
+        return error
+    return JSONResponse(status_code=200, content={"status": "connected"})
+
+@app.post("/submit_score")
+async def submit_score(request: Request):
+    body_bytes = await request.body()
+    data = json.loads(body_bytes)
+
+    steam_id = data.get("steam_id")
+    ticket = data.get("auth_ticket")
+
+    error = check_steam_ticket(steam_id, ticket)
+    if (error):
+        return error
 
     result = subprocess.run(["../ServerExport/ServerValidator.exe", "--headless", data.get("inputs")], capture_output=True)
+
+    corrected_time : float = 30
 
     print(ccolors.OKBLUE + "===================")
     print("GODOT SERVER OUTPUT")
     print(str(result.stdout))
     print("===================" + ccolors.ENDC)
+
+    if (result.returncode == 0):
+        db.add_replay_to_database(steam_id, level, data.get("inputs"), corrected_time)
+        db.print_whole_db()
+
     with open(f"replays/{steam_id}.json", "w") as f:
         json.dump(data, f)
 
@@ -77,3 +109,21 @@ async def submit_score(request: Request):
         return JSONResponse(status_code=200, content={"status": "valid"})
     else:
         return JSONResponse(status_code=200, content={"status": "invalid_simulation"})
+    
+
+@app.get("/daily_level")
+async def get_daily_level():
+    print("daily level requested")
+    return {"daily_level": daily_level()}
+
+@app.get("/daily_ranking")
+async def get_daily_ranking(
+    claimed_time: str = Query(..., description="Temps effectué")):
+    print("daily level requested")
+    return {"ranking": db.get_ranking(claimed_time, level)}
+
+@app.get("/nearby_ghosts")
+async def get_nearby_ghosts(
+    claimed_time: str = Query(..., description="Temps effectué")):
+    ghosts = db.get_nearest_ghosts(3, claimed_time, level)
+    return ghosts
