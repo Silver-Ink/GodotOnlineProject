@@ -11,7 +11,8 @@ size = Vector2(126, 124)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
-scale = Vector2(125, 125)
+position = Vector2(-5.06639e-06, 5.54323e-06)
+scale = Vector2(126, 124)
 texture = SubResource("CanvasTexture_hfsdp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]

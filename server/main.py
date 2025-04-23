@@ -83,6 +83,7 @@ async def submit_score(request: Request):
 
     steam_id = data.get("steam_id")
     ticket = data.get("auth_ticket")
+    print(ticket)
 
     error = check_steam_ticket(steam_id, ticket)
     if (error):

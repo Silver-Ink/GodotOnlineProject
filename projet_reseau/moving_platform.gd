@@ -16,8 +16,6 @@ func _ready():
 	lastNormalPosition = position
 	waiting = 0.0
 	time = 0.0
-	# Trouve le joueur dans la scène
-	player = get_node("/root/Scene/CharacterBody")  # Remplace "Scene/Player" par le chemin correct vers le joueur
 
 # Appelé chaque frame
 func _process(delta):
@@ -49,10 +47,12 @@ func _process(delta):
 
 # Fonction pour détecter si le joueur est sur la plateforme
 func _on_area_2d_body_entered(body):
-	if body == player:
+	if body is Player:
+		player = body
 		is_player_on_platform = true
 
 
 func _on_area_2d_body_exited(body):
-	if body == player:
+	if body is Player:
+		player = null
 		is_player_on_platform = false
