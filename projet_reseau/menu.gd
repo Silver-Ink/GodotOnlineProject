@@ -17,17 +17,25 @@ func _ready():
 	$VBoxContainer/PlayButton.pressed.connect(on_play_pressed)
 	$VBoxContainer/QuitButton.pressed.connect(on_quit_pressed)
 	$VBoxContainer/TestButton.pressed.connect(on_test_pressed)
+	$VBoxContainer/ConnectButton.pressed.connect(on_connect)
 
-func on_play_pressed():
+func load_level():
 	var level = "level" + str(num_level)
 	var path = "res://Levels/" + level + ".tscn"
 	if FileAccess.file_exists(path):
 		get_tree().change_scene_to_file(path)
-
+		
+func on_play_pressed():
+	AutoloadClient.client_connect_inst.connect_to_server()
+	
+	load_level()
+	
 func on_quit_pressed():
 	get_tree().quit()
 	
 func on_test_pressed():
+	AutoloadClient.client_connect_inst.get_daily_level()
+	
+func on_connect():
 	AutoloadClient.client_connect_inst.connect_to_server()
-	AutoloadClient.client_connect_inst.submit_test_score()
 	

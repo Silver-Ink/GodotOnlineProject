@@ -40,7 +40,11 @@ text = "Quit Game"
 
 [node name="TestButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Test Connexion"
+text = "Test Score"
+
+[node name="ConnectButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Connect"
 
 [node name="LevelTimeLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2

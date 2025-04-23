@@ -12,8 +12,8 @@ var elapsed_time_precise : float = 0.0
 var timer_running : bool = true
 
 func _ready():
-	timer.timeout.connect(_on_Timer_timeout)
-	end_area.body_entered.connect(_on_area_2d_body_entered)
+	#timer.timeout.connect(_on_Timer_timeout)
+	#end_area.body_entered.connect(_on_area_2d_body_entered)
 	
 	var timer_ui = TIMER_UI.instantiate()
 	add_child(timer_ui)

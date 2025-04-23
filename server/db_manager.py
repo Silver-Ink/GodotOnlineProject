@@ -54,7 +54,7 @@ def get_nearest_ghosts(max_ghost : int, claimed_time : float, level : int):
     """, (level, claimed_time, max_ghost))
     
 	rows = cursor.fetchall()
-	return {"ghost": [
+	return {"ghosts": [
         {"steam_id": r[0], "inputs": r[1], "time": r[2]} for r in rows
     ]}
 

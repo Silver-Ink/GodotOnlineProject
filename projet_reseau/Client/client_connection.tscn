@@ -5,7 +5,23 @@
 [node name="ClientConnection" type="Node"]
 script = ExtResource("1_1kd00")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTP_connect_to_server" type="HTTPRequest" parent="."]
 timeout = 5.0
 
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[node name="HTTP_submit_score" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[node name="HTTP_get_daily_level" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[node name="HTTP_get_daily_ranking" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[node name="HTTP_get_nearby_ghosts" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[connection signal="request_completed" from="HTTP_connect_to_server" to="." method="_on_connected_to_server"]
+[connection signal="request_completed" from="HTTP_submit_score" to="." method="_on_score_submitted"]
+[connection signal="request_completed" from="HTTP_get_daily_level" to="." method="_on_daily_level_got"]
+[connection signal="request_completed" from="HTTP_get_daily_ranking" to="." method="_on_daily_ranking_got"]
+[connection signal="request_completed" from="HTTP_get_nearby_ghosts" to="." method="_on_nearby_ghosts_got"]
