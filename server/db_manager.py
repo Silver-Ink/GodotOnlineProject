@@ -58,6 +58,18 @@ def get_nearest_ghosts(max_ghost : int, claimed_time : float, level : int):
         {"steam_id": r[0], "inputs": r[1], "time": r[2]} for r in rows
     ]}
 
+def get_best_time(steam_id : int , level : int):
+	conn = sqlite3.connect("replays.db")
+	cursor = conn.cursor()
+	cursor.execute("""
+        SELECT time FROM replays
+		WHERE level = ?
+		AND steam_id = ?
+    """, (level, steam_id))
+    
+	rows = cursor.fetchall()
+	return rows[0, 0]
+
 def print_whole_db():
     
 	conn = sqlite3.connect("replays.db")

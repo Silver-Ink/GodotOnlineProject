@@ -2,7 +2,6 @@ extends Control
 
 @onready var level_time_label = $VBoxContainer/LevelTimeLabel
 
-@export var num_level := 1
 func _ready():
 	var text = ""
 	for level_id in AutoLoadTimer.level_times.keys():
@@ -19,16 +18,19 @@ func _ready():
 	$VBoxContainer/TestButton.pressed.connect(on_test_pressed)
 	$VBoxContainer/ConnectButton.pressed.connect(on_connect)
 
-func load_level():
-	var level = "level" + str(num_level)
-	var path = "res://Levels/" + level + ".tscn"
+func load_level(level):
+	var path = "res://Levels/level%d.tscn" % level
 	if FileAccess.file_exists(path):
 		get_tree().change_scene_to_file(path)
 		
 func on_play_pressed():
 	AutoloadClient.client_connect_inst.connect_to_server()
+	await AutoloadClient.client_connect_inst.server_connected
 	
-	load_level()
+	AutoloadClient.client_connect_inst.get_daily_level()
+	await AutoloadClient.client_connect_inst.daily_level_got
+	
+	load_level(AutoloadClient.daily_level)
 	
 func on_quit_pressed():
 	get_tree().quit()

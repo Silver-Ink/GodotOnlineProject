@@ -5,12 +5,14 @@ signal score_submitted
 signal daily_level_got(level : int)
 signal daily_ranking_got(rank : int)
 signal nearby_ghosts_got(ghosts : Dictionary)
+signal best_time_got(time : float)
 
 @onready var http_connect_to_server: HTTPRequest = $HTTP_connect_to_server
 @onready var http_submit_score: HTTPRequest = $HTTP_submit_score
 @onready var http_get_daily_level: HTTPRequest = $HTTP_get_daily_level
 @onready var http_get_daily_ranking: HTTPRequest = $HTTP_get_daily_ranking
 @onready var http_get_nearby_ghosts: HTTPRequest = $HTTP_get_nearby_ghosts
+@onready var http_get_best_time: HTTPRequest = $HTTP_get_best_time
 
 var server_adress = 'http://127.0.0.1:8000/'
 
@@ -97,6 +99,21 @@ func _on_nearby_ghosts_got(result: int, response_code: int, headers: PackedStrin
 		var ghosts : Dictionary = json["ghosts"]
 		print(ghosts)
 		nearby_ghosts_got.emit(ghosts)
+	else:
+		printerr("Error getting level")
+		
+func get_best_time():
+	var payload = {
+		"steam_id": steam_id,
+		"auth_ticket": ticket
+	}
+	send_request(HTTPClient.METHOD_GET, "best_time", payload, http_get_best_time)
+	
+func _on_best_time_got(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
+	if (result == 0 && response_code == HTTPClient.RESPONSE_OK):
+		var json : Dictionary = JSON.parse_string(body.get_string_from_utf8())
+		var time : float = json["best_time"]
+		best_time_got.emit(time)
 	else:
 		printerr("Error getting level")
 

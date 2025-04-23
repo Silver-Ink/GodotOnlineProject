@@ -128,3 +128,9 @@ async def get_nearby_ghosts(
     claimed_time: str = Query(..., description="Temps effectué")):
     ghosts = db.get_nearest_ghosts(3, claimed_time, level)
     return ghosts
+
+@app.get("/best_time")
+async def get_best_time(
+    steam_id : int = Query(..., description="Id du joueur steam"),
+    level: int = Query(..., description="Id du level (commence a 0)")):
+    return {"best_time": db.get_best_time(steam_id, level)}
