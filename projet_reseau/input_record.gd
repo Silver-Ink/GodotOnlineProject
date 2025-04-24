@@ -12,6 +12,7 @@ var _record_file : FileAccess
 var _record_file_path := "user://test_file.dat"
 
 var temp = false
+var temp_timestamp : float = 0
 
 const GHOST_CHARACTER_2D = preload("res://ghost_character2D.tscn")
 var ghost_char
@@ -29,6 +30,9 @@ func _ready() -> void:
 	start_recording()
 
 func _process(delta: float) -> void:
+	if (temp):
+		temp_timestamp += delta
+		
 	if (not _currently_recording):
 		return
 
@@ -89,20 +93,19 @@ func inputs_to_string():
 func recreate_inputs(input_info : Dictionary):
 	if temp:
 		return
-
+	
+	print(input_info)
+	
 	temp = true
 
-	var time_already_waited := 0
 	for action_start_time in input_info.keys():
-		await get_tree().create_timer(action_start_time - time_already_waited).timeout
 
 		for started_action in input_info[action_start_time]:
-			ghost_action_on(started_action[0])
-			set_timer_ghost_action_off(started_action[0], started_action[1])
-
-		time_already_waited = action_start_time
+			set_timer_ghost_action_on(started_action[0], action_start_time)
+			set_timer_ghost_action_off(started_action[0], action_start_time + started_action[1])
 
 func ghost_action_on(action_name : String):
+	#print(action_name, " on ", temp_timestamp)
 	if (action_name == "ui_left"):
 		ghost_char.left = true
 	elif (action_name == "ui_right"):
@@ -110,19 +113,42 @@ func ghost_action_on(action_name : String):
 	elif (action_name == "ui_accept"):
 		ghost_char.jump = true
 
-func set_timer_ghost_action_off(action_name : String, hold_time : float):
+func set_timer_ghost_action_on(action_name : String, start_time : float):
 	if (action_name == "ui_left"):
-		get_tree().create_timer(hold_time).timeout.connect(ghost_left_off)
+		get_tree().create_timer(start_time).timeout.connect(ghost_left_on)
 	elif (action_name == "ui_right"):
-		get_tree().create_timer(hold_time).timeout.connect(ghost_right_off)
+		get_tree().create_timer(start_time).timeout.connect(ghost_right_on)
 	elif (action_name == "ui_accept"):
-		get_tree().create_timer(hold_time).timeout.connect(ghost_jump_off)
+		get_tree().create_timer(start_time).timeout.connect(ghost_jump_on)
+		
+func set_timer_ghost_action_off(action_name : String, stop_time : float):
+	if (action_name == "ui_left"):
+		get_tree().create_timer(stop_time).timeout.connect(ghost_left_off)
+	elif (action_name == "ui_right"):
+		get_tree().create_timer(stop_time).timeout.connect(ghost_right_off)
+	elif (action_name == "ui_accept"):
+		get_tree().create_timer(stop_time).timeout.connect(ghost_jump_off)
+
+func ghost_jump_on():
+	#print("ui_accept on ", temp_timestamp)
+	ghost_char.jump = true
+
+func ghost_left_on():
+	#print("ui_left on ", temp_timestamp)
+	ghost_char.left = true
+
+func ghost_right_on():
+	#print("ui_right on ", temp_timestamp)
+	ghost_char.right = true
 
 func ghost_jump_off():
+	#print("ui_accept off ", temp_timestamp)
 	ghost_char.jump = false
 
 func ghost_left_off():
+	#print("ui_left off ", temp_timestamp)
 	ghost_char.left = false
 
 func ghost_right_off():
+	#print("ui_right off ", temp_timestamp)
 	ghost_char.right = false

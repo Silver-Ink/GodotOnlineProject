@@ -6,7 +6,7 @@ const MAX_SPEED = 800.0
 const ACCELERATION = 1000.0
 const DECELERATION = 1000.0
 const JUMP_VELOCITY = -900.0
-const BOUNCE_FACTOR = 1.0
+const BOUNCE_FACTOR = 0.65
 
 @onready var anim: AnimatedSprite2D = $anim
 var facing = 1
