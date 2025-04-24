@@ -7,7 +7,7 @@ const LEVEL_COUNT = 2
 
 var daily_level : int = -1
 var daily_rank : int = -1
-var nearby_ghosts : Dictionary
+var nearby_ghosts : Array
 
 
 func _ready():
@@ -32,7 +32,7 @@ func on_daily_level_got(level: int):
 func on_daily_ranking_got(rank: int):
 	daily_rank = rank
 	
-func on_nearby_ghosts_got(ghosts: Dictionary):
+func on_nearby_ghosts_got(ghosts: Array):
 	nearby_ghosts = ghosts
 	
 func on_best_time_got(time: float):

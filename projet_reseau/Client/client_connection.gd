@@ -4,7 +4,7 @@ signal server_connected
 signal score_submitted
 signal daily_level_got(level : int)
 signal daily_ranking_got(rank : int)
-signal nearby_ghosts_got(ghosts : Dictionary)
+signal nearby_ghosts_got(ghosts : Array)
 signal best_time_got(time : float)
 
 @onready var http_connect_to_server: HTTPRequest = $HTTP_connect_to_server
@@ -99,7 +99,7 @@ func get_nearby_ghosts(time : float):
 func _on_nearby_ghosts_got(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	if (result == 0 && response_code == HTTPClient.RESPONSE_OK):
 		var json : Dictionary = JSON.parse_string(body.get_string_from_utf8())
-		var ghosts : Dictionary = json["ghosts"]
+		var ghosts : Array = json["ghosts"]
 		print("ghosts received : ", ghosts)
 		nearby_ghosts_got.emit(ghosts)
 	else:

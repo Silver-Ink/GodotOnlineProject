@@ -101,7 +101,7 @@ async def submit_score(request: Request):
 
     if (result.returncode == 0):
         db.add_replay_to_database(steam_id, level, data.get("inputs"), corrected_time)
-        db.print_whole_db()
+        # db.print_whole_db()
 
     with open(f"replays/{steam_id}.json", "w") as f:
         json.dump(data, f)

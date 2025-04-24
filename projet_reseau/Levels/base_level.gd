@@ -53,7 +53,6 @@ func _end_level():
 	timer.stop()
 	player.stop_recording_inputs()
 	var inputs = player.get_input_string()
-	print("inputs", inputs)
 	
 	if (AutoLoadTimer.set_level_time(level_id, elapsed_time_precise)):
 		AutoloadClient.client_connect_inst.submit_test_score(inputs, elapsed_time_precise)
@@ -62,5 +61,6 @@ func _end_level():
 	add_child(end_menu)
 	var test : Control
 	
-func _instanciate_ghosts_from_inputs(inputs : Dictionary):
-	print(inputs)
+func _instanciate_ghosts_from_inputs(inputs : Array):
+	#TODO : Add ghosts to scene here
+	print("Nombre de fantomes : ", len(inputs))
