@@ -93,7 +93,7 @@ async def submit_score(request: Request):
         return error
 
     print(str(data.get("time")))
-    result = subprocess.run(["../ServerExport/ServerValidator.exe", "--headless", data.get("inputs"), str(data.get("time"))], capture_output=True)
+    result = subprocess.run(["../ServerExport/ServerValidator.exe", "--headless", data.get("inputs"), str(data.get("time")), str(level)], capture_output=True)
 
     corrected_time : float = 99
 
