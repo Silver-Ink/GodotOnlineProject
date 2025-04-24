@@ -92,16 +92,33 @@ async def submit_score(request: Request):
     if (error):
         return error
 
-    result = subprocess.run(["../ServerExport/ServerValidator.exe", "--headless", data.get("inputs")], capture_output=True)
+    print(str(data.get("time")))
+    result = subprocess.run(["../ServerExport/ServerValidator.exe", "--headless", data.get("inputs"), str(data.get("time"))], capture_output=True)
 
-    corrected_time : float = 30
+    corrected_time : float = 99
 
+    godot_output = result.stdout.decode()
+
+    print(ccolors.WARNING + "===================")
+    print("GODOT SERVER ERRORS")
+    print(result.stderr.decode())
+    print("===================" + ccolors.ENDC)
     print(ccolors.OKBLUE + "===================")
     print("GODOT SERVER OUTPUT")
-    print(str(result.stdout))
+    print(godot_output)
     print("===================" + ccolors.ENDC)
 
     if (result.returncode == 0):
+
+        key = "corrected time:"
+        start = godot_output.find(key) + len(key)
+        if (start != -1):
+            end = start + 1
+            while (godot_output[end] != ';'):
+                end += 1
+            str_time = godot_output[start:end]
+            corrected_time = float(str_time)
+
         db.add_replay_to_database(steam_id, level, data.get("inputs"), corrected_time)
         # db.print_whole_db()
 
