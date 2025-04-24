@@ -110,6 +110,7 @@ async def submit_score(request: Request):
 
     if (result.returncode == 0):
 
+        # format is "corrected time:%f;"
         key = "corrected time:"
         start = godot_output.find(key) + len(key)
         if (start != -1):

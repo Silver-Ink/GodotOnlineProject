@@ -7,7 +7,10 @@ const DECELERATION = 1000.0
 const JUMP_VELOCITY = -900.0
 const BOUNCE_FACTOR = 1.0
 
+var facing = 1
+
 @onready var input_record: InputRecord = $InputRecord
+@onready var anim: AnimatedSprite2D = $anim
 
 #var velocity := Vector2.ZERO
 func start_recording_inputs():
@@ -53,3 +56,19 @@ func _physics_process(delta):
 	else:
 		# Pas d'input → on freine normalement
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
+		
+	
+	if (!is_on_floor() && 0 > velocity.x):
+		anim.flip_h = true
+	else:
+		anim.flip_h = false
+	
+	facing = sign(velocity.x) 
+	if (0 > velocity.y):	
+		anim.play("jump_right" if facing > 0 else "jump_left")
+	elif (velocity.y > 0):
+		anim.play("fall_right" if facing > 0 else "fall_left")
+	elif (abs(velocity.x) > SPEED * .7):
+		anim.play("run_right" if facing > 0 else "run_left")
+	else:
+		anim.play("idle_right" if facing > 0 else "idle_left")

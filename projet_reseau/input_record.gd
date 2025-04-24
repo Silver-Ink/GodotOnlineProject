@@ -46,6 +46,6 @@ func inputs_to_string():
 	var file = FileAccess.open(_record_file_path, FileAccess.READ)
 	
 	var str := ""
-	while (not file.eof_reached()):
+	while (not file.eof_reached()): 
 		str += ("%f:%s;" % [file.get_float(), _available_actions[file.get_8()]])
 	return str
