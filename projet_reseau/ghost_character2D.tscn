@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://vx1y2uoh5k05"]
 
-[ext_resource type="Script" uid="uid://dgxgjwwq8tkuc" path="res://ghost_character_body.gd" id="1_pot7j"]
+[ext_resource type="Script" uid="uid://bspqbsk3uprdm" path="res://ghost_character_body.gd" id="1_pot7j"]
 [ext_resource type="Texture2D" uid="uid://cnq08f0iwi47f" path="res://icon.svg" id="2_6dj8c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2cyhl"]
@@ -9,7 +9,7 @@ height = 208.0
 
 [node name="CharacterBody" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 script = ExtResource("1_pot7j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

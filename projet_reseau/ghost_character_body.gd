@@ -11,9 +11,14 @@ const BOUNCE_FACTOR = 1.0
 var playback_data = []
 var playback_index = 0
 var playback_time = 0.0
-var is_playing = false
 
 var current_actions: Array[int] = []
+
+var jump := false
+var old_jump := false
+
+var left := false
+var right := false
 
 func load_actions(path: String):
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -40,14 +45,10 @@ func load_actions(path: String):
 func start_playback():
 	playback_index = 0
 	playback_time = 0.0
-	is_playing = true
+	#is_playing = true
 	print("Début de la lecture des actions")
 
 func _physics_process(delta):
-	if not is_playing or playback_index >= playback_data.size():
-		print("Aucune action à jouer ou playback terminé")
-		return
-	
 	playback_time += delta
 	
 	while playback_index < playback_data.size() and playback_data[playback_index]["time"] <= playback_time:
@@ -58,11 +59,10 @@ func _physics_process(delta):
 	# --- Mouvements simulés comme le joueur ---
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		print("Gravité appliquée : ", velocity)
 
-	if 0 in current_actions and is_on_floor():  # game_jump
+	if (jump && !old_jump) and is_on_floor():  # game_jump
 		velocity.y = JUMP_VELOCITY
-		print("Saut effectué")
+		#print("Saut effectué")
 
 	var previous_velocity = velocity
 	move_and_slide()
@@ -71,26 +71,28 @@ func _physics_process(delta):
 		var collision = get_slide_collision(i)
 		if abs(collision.get_normal().x) > 0.9:
 			velocity.x = -previous_velocity.x * BOUNCE_FACTOR
-			print("Rebond horizontal appliqué")
+			#print("Rebond horizontal appliqué")
 			break
 
+	# Setting direction according to booleans
 	var direction = 0
-	if 1 in current_actions: # game_left
-		direction -= 1
-		print("Déplacement vers la gauche")
-	if 2 in current_actions: # game_right
-		direction += 1
-		print("Déplacement vers la droite")
+	if (left and not right):
+		direction = -1
+	if (right and not left):
+		direction = 1
 
 	if direction != 0:
 		if sign(direction) == sign(velocity.x) or velocity.x == 0:
 			var target_speed = move_toward(abs(velocity.x), MAX_SPEED, ACCELERATION * delta)
 			velocity.x = direction * target_speed
-			print("Vitesse horizontale appliquée : ", velocity.x)
+			#print("Vitesse horizontale appliquée : ", velocity.x)
 		else:
 			velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 
 	# Afficher la position et la vitesse pour le débogage
-	print("Position actuelle : ", position, " | Vitesse : ", velocity)
+	#print("Position actuelle : ", position, " | Vitesse : ", velocity)
+	
+	# Update "old input" values
+	old_jump = jump
