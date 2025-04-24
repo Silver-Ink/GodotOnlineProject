@@ -3,10 +3,6 @@
 [ext_resource type="Script" uid="uid://bspqbsk3uprdm" path="res://ghost_character_body.gd" id="1_pot7j"]
 [ext_resource type="Texture2D" uid="uid://ds8bet4darvaj" path="res://Assets/char.png" id="2_pot7j"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2cyhl"]
-radius = 68.0
-height = 208.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_eaijf"]
 atlas = ExtResource("2_pot7j")
 region = Rect2(32, 256, 32, 32)
@@ -182,13 +178,14 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pot7j"]
+radius = 44.0
+height = 193.0
+
 [node name="CharacterBody" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_pot7j")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_2cyhl")
 
 [node name="anim" type="AnimatedSprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.392157)
@@ -196,3 +193,7 @@ scale = Vector2(6, 6)
 sprite_frames = SubResource("SpriteFrames_6dj8c")
 animation = &"jump_right"
 autoplay = "idle_right"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("CapsuleShape2D_pot7j")
