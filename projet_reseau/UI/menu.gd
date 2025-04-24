@@ -1,6 +1,6 @@
 class_name MainMenu extends Control
 
-@onready var level_time_label = $VBoxContainer/LevelTimeLabel
+@onready var level_time_label = $ColorPanel/Panel/MarginContainer/VBoxContainer/LevelTimeLabel
 @export var level_to_play = 1
 
 func _ready():
@@ -14,10 +14,10 @@ func _ready():
 
 	level_time_label.text = text if text != "" else "Aucun niveau complété."
 
-	$VBoxContainer/PlayButton.pressed.connect(on_play_pressed)
-	$VBoxContainer/QuitButton.pressed.connect(on_quit_pressed)
-	$VBoxContainer/TestButton.pressed.connect(on_test_pressed)
-	$VBoxContainer/ConnectButton.pressed.connect(on_connect)
+	$ColorPanel/Panel/MarginContainer/VBoxContainer/PlayButton.pressed.connect(on_play_pressed)
+	$ColorPanel/Panel/MarginContainer/VBoxContainer/ConnectButton.pressed.connect(on_quit_pressed)
+	$ColorPanel/Panel/MarginContainer/VBoxContainer/TestButton.pressed.connect(on_test_pressed)
+	$ColorPanel/Panel/MarginContainer/VBoxContainer/QuitButton.pressed.connect(on_connect)
 
 static func load_level(level : int, tree : SceneTree):
 	level += 1

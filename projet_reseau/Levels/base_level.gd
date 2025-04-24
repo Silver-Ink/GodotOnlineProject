@@ -6,8 +6,8 @@ class_name BaseLevel extends Node2D
 
 @onready var player: Player = $Player
 
-const TIMER_UI = preload("res://timer_ui.tscn")
-const END_LEVEL_MENU = preload("res://end_level_menu.tscn")
+const TIMER_UI = preload("res://UI/timer_ui.tscn")
+const END_LEVEL_MENU = preload("res://UI/end_level_menu.tscn")
 
 @export var level_id : int = -1
 var elapsed_time : int = 0
@@ -59,6 +59,7 @@ func _end_level():
 	
 	var end_menu : EndLevelMenu = END_LEVEL_MENU.instantiate()
 	add_child(end_menu)
+	end_menu.set_ranking_time(AutoloadClient.nearby_ghosts, elapsed_time_precise)
 	var test : Control
 	
 func _instanciate_ghosts_from_inputs(inputs : Array):

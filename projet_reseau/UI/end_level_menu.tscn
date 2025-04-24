@@ -1,16 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bs1xci1d0mbkk"]
 
-[ext_resource type="Script" uid="uid://vbgrtsl6j0dq" path="res://end_level_menu.gd" id="1_r3jy5"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_14qgk"]
-bg_color = Color(0.565288, 0.574988, 0.727591, 1)
-border_width_top = 15
-border_width_right = 15
-border_color = Color(0.7964, 0.792, 0.88, 1)
-corner_radius_top_left = 50
-corner_radius_top_right = 20
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 20
+[ext_resource type="Script" uid="uid://vbgrtsl6j0dq" path="res://UI/end_level_menu.gd" id="1_r3jy5"]
+[ext_resource type="StyleBox" uid="uid://bxs3ugggmvhlf" path="res://UI/style/button_hover.tres" id="2_3hhi0"]
+[ext_resource type="StyleBox" uid="uid://d04yh53mfyyn" path="res://UI/style/back_panel.tres" id="2_5mc0e"]
+[ext_resource type="StyleBox" uid="uid://nle3h4b7dko3" path="res://UI/style/button_normal.tres" id="3_c5v8m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq6l2"]
 bg_color = Color(0.4489, 0.629465, 0.67, 1)
@@ -23,25 +16,6 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r3jy5"]
-bg_color = Color(0.482314, 0.650311, 0.502345, 1)
-skew = Vector2(0.2, 0)
-border_width_top = 6
-border_width_right = 6
-corner_radius_top_left = 20
-corner_radius_top_right = 10
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg46v"]
-bg_color = Color(0.482314, 0.650311, 0.502345, 1)
-border_width_top = 6
-border_width_right = 6
-corner_radius_top_left = 20
-corner_radius_top_right = 10
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orpgi"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -66,7 +40,7 @@ anchor_right = 0.7
 anchor_bottom = 0.75
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_14qgk")
+theme_override_styles/panel = ExtResource("2_5mc0e")
 
 [node name="Container" type="Control" parent="Control/Panel"]
 layout_mode = 1
@@ -193,8 +167,8 @@ metadata/_edit_use_anchors_ = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_r3jy5")
-theme_override_styles/normal = SubResource("StyleBoxFlat_bg46v")
+theme_override_styles/hover = ExtResource("2_3hhi0")
+theme_override_styles/normal = ExtResource("3_c5v8m")
 text = "Retry"
 
 [node name="VSeparator" type="VSeparator" parent="Control/Panel/Container/HBoxContainer"]
@@ -206,8 +180,8 @@ theme_override_styles/separator = SubResource("StyleBoxFlat_orpgi")
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_styles/hover = SubResource("StyleBoxFlat_r3jy5")
-theme_override_styles/normal = SubResource("StyleBoxFlat_bg46v")
+theme_override_styles/hover = ExtResource("2_3hhi0")
+theme_override_styles/normal = ExtResource("3_c5v8m")
 text = "Menu"
 
 [connection signal="button_down" from="Control/Panel/Container/HBoxContainer/Retry" to="." method="_on_retry_button_down"]

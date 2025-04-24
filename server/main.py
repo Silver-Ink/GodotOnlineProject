@@ -21,6 +21,8 @@ class ccolors:
 
 app = FastAPI()
 
+GHOST_NUMBER = 4
+
 STEAM_API_KEY = steam_api_key.key
 APP_ID = "480" 
 level = 0
@@ -127,7 +129,7 @@ async def get_daily_ranking(
 @app.get("/nearby_ghosts")
 async def get_nearby_ghosts(
     claimed_time: str = Query(..., description="Temps effectué")):
-    ghosts = db.get_nearest_ghosts(3, claimed_time, level)
+    ghosts = db.get_nearest_ghosts(GHOST_NUMBER, claimed_time, level)
     return ghosts
 
 @app.get("/best_time")

@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3 uid="uid://cvxjxii8noho8"]
+
+[ext_resource type="Script" uid="uid://ntchh5a35o03" path="res://UI/menu.gd" id="1_lti8b"]
+[ext_resource type="StyleBox" uid="uid://bxs3ugggmvhlf" path="res://UI/style/button_hover.tres" id="2_4hkxj"]
+[ext_resource type="StyleBox" uid="uid://d04yh53mfyyn" path="res://UI/style/back_panel.tres" id="2_qmqfe"]
+[ext_resource type="StyleBox" uid="uid://nle3h4b7dko3" path="res://UI/style/button_normal.tres" id="3_qmqfe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e05sn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lti8b"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4hkxj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmqfe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lti8b")
+
+[node name="ColorPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e05sn")
+
+[node name="Panel" type="Panel" parent="ColorPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.1
+anchor_right = 0.7
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_qmqfe")
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorPanel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorPanel/Panel/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Projet Réseau"
+label_settings = SubResource("LabelSettings_lti8b")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator2" type="HSeparator" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 46.035)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_4hkxj")
+
+[node name="PlayButton" type="Button" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("2_4hkxj")
+theme_override_styles/normal = ExtResource("3_qmqfe")
+text = "Play Game"
+
+[node name="TestButton" type="Button" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("2_4hkxj")
+theme_override_styles/normal = ExtResource("3_qmqfe")
+text = "Play no Steam"
+
+[node name="ConnectButton" type="Button" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("2_4hkxj")
+theme_override_styles/normal = ExtResource("3_qmqfe")
+text = "Connect"
+
+[node name="QuitButton" type="Button" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = ExtResource("2_4hkxj")
+theme_override_styles/normal = ExtResource("3_qmqfe")
+text = "Quit Game"
+
+[node name="HSeparator" type="HSeparator" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 46.035)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_qmqfe")
+
+[node name="LevelTimeLabel" type="Label" parent="ColorPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Niveaux"
+horizontal_alignment = 1
