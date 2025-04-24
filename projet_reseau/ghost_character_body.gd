@@ -8,6 +8,9 @@ const DECELERATION = 1000.0
 const JUMP_VELOCITY = -900.0
 const BOUNCE_FACTOR = 1.0
 
+@onready var anim: AnimatedSprite2D = $anim
+var facing = 1
+
 var playback_data = []
 var playback_index = 0
 var playback_time = 0.0
@@ -90,9 +93,22 @@ func _physics_process(delta):
 			velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
-
-	# Afficher la position et la vitesse pour le débogage
-	#print("Position actuelle : ", position, " | Vitesse : ", velocity)
 	
 	# Update "old input" values
 	old_jump = jump
+	
+	# Sprite handling
+	if (!is_on_floor() && 0 > velocity.x):
+		anim.flip_h = true
+	else:
+		anim.flip_h = false
+	
+	facing = sign(velocity.x) 
+	if (0 > velocity.y):	
+		anim.play("jump_right" if facing > 0 else "jump_left")
+	elif (velocity.y > 0):
+		anim.play("fall_right" if facing > 0 else "fall_left")
+	elif (abs(velocity.x) > SPEED * .7):
+		anim.play("run_right" if facing > 0 else "run_left")
+	else:
+		anim.play("idle_right" if facing > 0 else "idle_left")
