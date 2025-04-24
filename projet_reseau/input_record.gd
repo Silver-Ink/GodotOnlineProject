@@ -1,6 +1,6 @@
-extends Node2D
+class_name InputRecord extends Node2D
 
-const _available_actions : Array[String] = ["ui_accept", "ui_down"]
+const _available_actions : Array[String] = ["ui_left", "ui_right", "ui_accept"]
 
 var _currently_recording := false
 var _current_time := 0.0
@@ -42,8 +42,10 @@ func stop_recording():
 	_currently_recording = false
 
 
-func read_file():
+func inputs_to_string():
 	var file = FileAccess.open(_record_file_path, FileAccess.READ)
 	
+	var str := ""
 	while (not file.eof_reached()):
-		print("%f: %s" % [file.get_float(), _available_actions[file.get_8()]])
+		str += ("%f:%s;" % [file.get_float(), _available_actions[file.get_8()]])
+	return str

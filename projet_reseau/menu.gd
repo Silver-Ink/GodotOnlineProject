@@ -1,11 +1,12 @@
-extends Control
+class_name MainMenu extends Control
 
 @onready var level_time_label = $VBoxContainer/LevelTimeLabel
+@export var level_to_play = 1
 
 func _ready():
 	var text = ""
 	for level_id in AutoLoadTimer.level_times.keys():
-		var time = AutoLoadTimer.get_level_time(level_id)
+		var time = AutoLoadTimer.get_level_time( level_id.to_int())
 		var minutes = int(time) / 60
 		var seconds = int(time) % 60
 		var milliseconds = int((time - int(time)) * 1000)
@@ -18,10 +19,13 @@ func _ready():
 	$VBoxContainer/TestButton.pressed.connect(on_test_pressed)
 	$VBoxContainer/ConnectButton.pressed.connect(on_connect)
 
-func load_level(level):
-	var path = "res://Levels/level%d.tscn" % level
-	if FileAccess.file_exists(path):
-		get_tree().change_scene_to_file(path)
+static func load_level(level : int, tree : SceneTree):
+	level += 1
+	var path = "res://Levels/level1.tscn" #% level
+	#if FileAccess.file_exists(path):
+	tree.change_scene_to_file(path)
+	#else:
+		#printerr("Level does not exist ... : ", level)
 		
 func on_play_pressed():
 	AutoloadClient.client_connect_inst.connect_to_server()
@@ -30,13 +34,13 @@ func on_play_pressed():
 	AutoloadClient.client_connect_inst.get_daily_level()
 	await AutoloadClient.client_connect_inst.daily_level_got
 	
-	load_level(AutoloadClient.daily_level)
+	load_level(AutoloadClient.daily_level, get_tree())
 	
 func on_quit_pressed():
 	get_tree().quit()
 	
 func on_test_pressed():
-	AutoloadClient.client_connect_inst.get_daily_level()
+	load_level(level_to_play, get_tree())
 	
 func on_connect():
 	AutoloadClient.client_connect_inst.connect_to_server()

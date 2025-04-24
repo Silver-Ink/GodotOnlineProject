@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 import requests
 import json
 import db_manager as db
+import steam_api_key
 
 class ccolors:
     HEADER = '\033[95m'
@@ -20,7 +21,7 @@ class ccolors:
 
 app = FastAPI()
 
-STEAM_API_KEY = "460FD58ECA9B2A7B0F4542B5150A01AB"
+STEAM_API_KEY = steam_api_key.key
 APP_ID = "480" 
 level = 0
 level_count = 1

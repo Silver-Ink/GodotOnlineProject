@@ -7,7 +7,18 @@ const DECELERATION = 1000.0
 const JUMP_VELOCITY = -900.0
 const BOUNCE_FACTOR = 1.0
 
+@onready var input_record: InputRecord = $InputRecord
+
 #var velocity := Vector2.ZERO
+func start_recording_inputs():
+	input_record.start_recording()
+	
+func stop_recording_inputs():
+	input_record.stop_recording()
+
+func get_input_string():
+	return input_record.inputs_to_string()
+	
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -30,7 +41,6 @@ func _physics_process(delta):
 			break
 
 	# 3. Maintenant appliquer les inputs (seulement après le rebond)
-	
 	var direction = Input.get_axis("game_left", "game_right")
 	if direction != 0:
 		if sign(direction) == sign(velocity.x) or velocity.x == 0:

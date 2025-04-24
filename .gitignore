@@ -7,3 +7,4 @@
 /ServerExport
 /server/replay.json
 /server/__pycache__
+server/steam_api_key.py

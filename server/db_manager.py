@@ -68,7 +68,9 @@ def get_best_time(steam_id : int , level : int):
     """, (level, steam_id))
     
 	rows = cursor.fetchall()
-	return rows[0, 0]
+	if (len(rows) > 0):
+		return rows[0][0]
+	return -1
 
 def print_whole_db():
     

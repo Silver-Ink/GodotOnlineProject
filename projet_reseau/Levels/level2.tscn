@@ -54,7 +54,6 @@ limit_right = 1217
 limit_bottom = 586
 
 [node name="Timer" type="Timer" parent="."]
-autostart = true
 
 [node name="Area2D" parent="." instance=ExtResource("5_ijnin")]
 position = Vector2(253, -1860)

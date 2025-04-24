@@ -3,10 +3,11 @@ extends Node
 var _client_connection_scene : PackedScene = preload("res://Client/client_connection.tscn")
 var client_connect_inst : ClientConnection
 
+const LEVEL_COUNT = 2
+
 var daily_level : int = -1
 var daily_rank : int = -1
 var nearby_ghosts : Dictionary
-var best_time : float
 
 
 func _ready():
@@ -15,6 +16,7 @@ func _ready():
 			client_connect_inst = _client_connection_scene.instantiate()
 			add_child(client_connect_inst)
 			print("Correctly loaded client connection")
+			connect_signals()
 	else:
 		print("Did not loaded client connection")
 
@@ -34,4 +36,5 @@ func on_nearby_ghosts_got(ghosts: Dictionary):
 	nearby_ghosts = ghosts
 	
 func on_best_time_got(time: float):
-	best_time = time
+	if (time != -1):
+		AutoLoadTimer.level_times[daily_level] = time
